@@ -2,6 +2,7 @@ package me.miko.spawnauth.events;
 
 import me.miko.spawnauth.helpers.GameHelper;
 import me.miko.spawnauth.helpers.SaveHelper;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +22,8 @@ public class OnPlayerQuitEvent implements Listener {
         Player player = event.getPlayer();
 
         if (player.isInsideVehicle()) player.leaveVehicle();
-        if (!gameHelper.authMeApi.isAuthenticated(player))
-            gameHelper.teleport(player, saveHelper.getLocation(player.getName()));
+        Location location = saveHelper.getLocation(player.getName());
+        if (!gameHelper.authMeApi.isAuthenticated(player) && location != null)
+            gameHelper.teleport(player, location);
     }
 }
